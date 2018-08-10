@@ -8,8 +8,7 @@ var config = {
     storageBucket: "trains-4fa50.appspot.com",
     messagingSenderId: "416555667159"
   };
-
-firebase.initializeApp(config);
+  firebase.initializeApp(config);
 
 var database = firebase.database();
 
@@ -18,11 +17,15 @@ var data;
   database.ref().on("value", function(snapshot) {
   // Collect from Firebase 
   data = snapshot.val();
-  refreshTable();
+  //refreshTable();
 
 });
 
-$('#addTrainBtn').on("click", function() {
+$('#addTrainBtn').on('click', function() {
+  
+  // Prevents the user from refreshing page 
+  //event.preventDefault(); 
+
   // take user input
   var trainName = $("#trainNameInput").val().trim();
   var destination = $("#destinationInput").val().trim();
@@ -37,7 +40,7 @@ $('#addTrainBtn').on("click", function() {
   var dateString = "";
   var dateString = dateString.concat(thisMonth, "/", thisDate, "/", thisYear);
 
-  var trainFirstArrival = dateString.concat(" ", trainFirstArrivalTime);
+  var trainFirstArrival = dateString.concat(" ", firstTrain);
 
   // Push to Firebase 
   database.ref().push({
@@ -65,8 +68,9 @@ function refreshTable(){
   
   var trainName = value.name;
   var trainDestination = value.destination;
-  var trainFreq = value.frequency;
   var trainArrival = value.firstArrival;
+  var trainFreq = value.frequency;
+  
 
   var trainNextDeparture;
   var trainMinAway;
